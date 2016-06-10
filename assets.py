@@ -114,5 +114,3 @@ NPCS = []
 
 BLOCKS = []
 # Perform appends here...
-for i in range(10):
-    BLOCKS.append(Block(material=MATERIALS["Grass"]))

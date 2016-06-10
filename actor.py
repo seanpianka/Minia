@@ -25,7 +25,7 @@ class Actor(Entity, object):
     _uid = Entity._uid
     batch = pyglet.graphics.Batch()
 
-    def __init__(self, name, role, texture_path=None,
+    def __init__(self, name=None, role=None, texture_path=None,
                  facing=[1, 1], movement=0, position=[0, 0]):
         """ Initialize a new instance of an Actor (which is an entity).
 
@@ -52,6 +52,9 @@ class Actor(Entity, object):
         :type position: list
 
         """
+        if not name or not role:
+            print("Not enough info was provided. Exiting...")
+            sys.exit()
         if not texture_path:
             texture_path = role.texture_path
 

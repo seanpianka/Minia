@@ -21,6 +21,7 @@ Composition model is simpler than using inheritance and many actor subclasses:
 
 """
 import pyglet
+import sys
 
 from entity import Entity
 
@@ -31,7 +32,7 @@ class Block(Entity, object):
     uid = Entity._uid
     batch = pyglet.graphics.Batch()
 
-    def __init__(self, material, texture_path=None,
+    def __init__(self, material=None, texture_path=None,
                  facing=[1, 1], movement=0, position=[0, 0]):
         """ Create a new block with associated texture, name, id, and
         properties as it refers to actor interactions.
@@ -49,6 +50,10 @@ class Block(Entity, object):
         :type holdable: bool
 
         """
+        if not material:
+            print("No material was provided. Exiting...")
+            sys.exit()
+
         if not texture_path:
             texture_path = material.texture_path
 

@@ -19,14 +19,21 @@ from constants import *
 
 
 # Rendering test sprites onto the screen.
-t_x = 100
-t_y = 100
-for i in range(len(BLOCKS)):
-    BLOCKS[i].move_to(x=t_x, y=t_y)
-    print("Adding " + str(BLOCKS[i].name))
-    t_x += 40
-    t_y += 40
-PLAYERS[0].move_to(x=500, y=250)
+t_x = 32
+t_y = 32
+for i in range(MAX_ROWS):
+    for j in range(MAX_COLS):
+        if j < MAX_COLS / 3:
+            print("stone")
+            BLOCKS.append(Block(material=MATERIALS["Stone"], position=[i*t_x, j*t_x]))
+        elif j < MAX_COLS - 1:
+            print("dirt")
+            BLOCKS.append(Block(material=MATERIALS["Dirt"], position=[i*t_x, j*t_x]))
+        else:
+            print("grass")
+            BLOCKS.append(Block(material=MATERIALS["Grass"], position=[i*t_x, j*t_x]))
+PLAYERS[0].move_to(x=500, y=GROUND_LEVEL)
+PLAYERS[1].move_to(x=466, y=GROUND_LEVEL)
 
 
 class MiniaGame(pyglet.window.Window, object):
@@ -92,7 +99,7 @@ class MiniaGame(pyglet.window.Window, object):
 
 
 def main(width, height):
-    window = MiniaGame(width=width, height=height, vsync=0, caption="Minia", resizable=False)
+    window = MiniaGame(width=width, height=height, vsync=0, caption="Minia", resizable=True)
     window.set_exclusive_mouse(True)
     #window.main_loop()
     pyglet.app.run()

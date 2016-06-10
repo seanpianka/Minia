@@ -62,7 +62,7 @@ class Entity(UniqueID):
         #   in either direction won't unnecessarily flip the texture
         self._movement = [movement, facing[0]]
         # Current (x, y) position in the world, specified by floats
-        self._position = position
+        self._position = [position[0] + 16, position[1]]
         # Velocities in x axis and y axis
         self._dy = 0
         self._dx = 0

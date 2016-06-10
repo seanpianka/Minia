@@ -1,6 +1,6 @@
 # Minia
 ---
-<img src="http://i.imgur.com/4qtXxNR.png">
+<img src="http://i.imgur.com/p0lLUve.png">
 
 ## Synopsis
 2D, sprite tile-based, action-adventure, sandbox side-scrolling game featuring exploration (along with a day-night cycle), crafting, construction, and combat again both players and creatures found in the world.
