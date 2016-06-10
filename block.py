@@ -23,10 +23,13 @@ class Block(Entity, object):
 
         :param name: The name of the block.
         :type name: str
+
         :param texture: The path to the texture for the block.
         :type texture: str
+
         :param solid: A flag whether an actor may walk through the block.
         :type solid: bool
+
         :param holdable: A flag whether an actor may hold the block.
         :type holdable: bool
 

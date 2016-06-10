@@ -14,16 +14,50 @@ pyglet.resource.reindex()
 
 
 class Entity:
-    def __init__(self, name, texture_path, texture_batch, movement=0, position=(0, 0)):
+    def __init__(self, name, texture_path, texture_batch,
+                 facing=[1, 1], movement=0, position=[0, 0]):
+        """ Intialize a new instance of something that can be rendered to the
+        screen.
+
+        :param name: The name of the entity
+        :type name: str
+
+        :param texture_path: The path from CWD to the texture file.
+        :type texture_path: str
+
+        :param texture_batch: The batch for the sprite to be added to.
+        :type texture_batch: pyglet.graphics.Batch
+
+        :param facing: The first element indicates which direction the texture
+            is initally facing on the x-axis. -1 to indicate leftward facing
+            and 1 to indicate rightward facing.
+            The second element indicates which direction the texture is
+            initally facing on the y-axis. -1 to indicate upward (regular)
+            facing or 1 to indicate upside-down facing.
+        :type facing: list (int, int)
+
+        :param movement: Which direction the entity is initially moving. 0 to
+            indicate it is stopped, -1 to indicate leftward movement, and 1 to
+            indicate rightward movement.
+        :type movement: int
+
+        :param position: A tuple of the (x, y) initial coordinates of the
+            sprite.
+        :type position: list
+
+        """
         self._name = name
-        #  1 = Moving right, -1 = Moving left, 0 = Not moving
-        #  Second element is the last movement, used for flipping
-        self._movement = [movement, movement]
+        # 1 = Moving right, -1 = Moving left, 0 = Not moving
+        # Second element is the last movement, used for flipping. It is
+        #   defaulted to facing[0] so that the first movement of the player
+        #   in either direction won't unnecessarily flip the texture
+        self._movement = [movement, facing[0]]
         # Current (x, y) position in the world, specified by floats
         self._position = position
         # Velocities in x axis and y axis
         self._dy = 0
         self._dx = 0
+        self._facing = facing
         self.texture = (texture_path, texture_batch)
 
     def move_to(self, x=None, y=None):
@@ -71,7 +105,6 @@ class Entity:
         #   center of the sprite.
         self._texture = pyglet.resource.image(path_and_batch[0])
         self._texture.anchor_x = self._texture.width/2
-
         self._sprite = pyglet.sprite.Sprite(self.texture,
                                             x=self.position[0],
                                             y=self.position[1],
@@ -82,6 +115,19 @@ class Entity:
     def sprite(self):
         return self._sprite
 
+    # Facing
+    @property
+    def facing(self):
+        return self._facing
+
+    def flip(self, x=False, y=False):
+        if x:
+            self.facing[0] *= -1
+            self.sprite.image = self.sprite.image.get_transform(flip_x=True)
+        if y:
+            self.facing[1] *= -1
+            self.sprite.image = self.sprite.image.get_transform(flip_y=True)
+
     # Movement
     @property
     def movement(self):
@@ -90,10 +136,12 @@ class Entity:
     @movement.setter
     def movement(self, new_movement):
         if new_movement in [-1, 0, 1]:
-            if self._movement is not 0 and self._movement[0]*-1 is new_movement:
-                self._movement[1] = self._movement[0]
-                self.sprite.image = self.sprite.image.get_transform(flip_x=True)
-            self._movement[0] = new_movement
+            if (new_movement is not self._movement[1] and
+                new_movement is not 0):
+                self._movement[1] = self._movement[0] = new_movement
+                self.flip(x=True)
+            else:
+                self._movement[0] = new_movement
 
     # Y-Axis Velocity
     @property

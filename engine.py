@@ -55,30 +55,30 @@ class MiniaGame(pyglet.window.Window, object):
         self.render()
 
     def on_key_press(self, symbol, modifiers):
-        if symbol == key.LEFT:
+        if symbol == key.A:
             self.active.dx = -SPEED
             self.active.dy = 0
-        if symbol == key.RIGHT:
+        if symbol == key.D:
             self.active.dx = SPEED
             self.active.dy = 0
-        if symbol == key.UP:
+        if symbol == key.W:
             self.active.dx = 0
             self.active.dy = SPEED
-        if symbol == key.DOWN:
+        if symbol == key.S:
             self.active.dx = 0
             self.active.dy = -SPEED
 
     def on_key_release(self, symbol, modifiers):
-        if symbol == key.LEFT:
+        if symbol == key.A:
             self.active.dx = 0
             self.active.dy = 0
-        if symbol == key.RIGHT:
+        if symbol == key.D:
             self.active.dx = 0
             self.active.dy = 0
-        if symbol == key.UP:
+        if symbol == key.W:
             self.active.dx = 0
             self.active.dy = 0
-        if symbol == key.DOWN:
+        if symbol == key.S:
             self.active.dx = 0
             self.active.dy = 0
 
