@@ -1,7 +1,21 @@
 """
 block
 ~~~~~
-desc
+
+Container class for an "Material", an entity instance with properties shared
+among all Blocks of that Material, makes up the terrain and world. It is
+holdable and destrucible by the player (when its health reaches 0).
+
+Create an object of the "material" subclass called "Material" and give it
+attributes:
+    WATER = Material(health=100, holdable=False, solid=False)
+    WOOD = Material(health=100, holdable=True, solid=True)
+Create a new Block and provide it the generic material of "WOOD" or "WATER".
+    wood_243 = Block(material=WOOD, name="wood_243")
+    water_1 = Block(material=WATER, name="water_1")
+
+Composition model is simpler than using inheritance and many actor subclasses:
+    See also: http://gameprogrammingpatterns.com/type-object.html
 
 :author: Sean Pianka
 
@@ -14,10 +28,11 @@ pyglet.resource.path = ["assets"]
 pyglet.resource.reindex()
 
 class Block(Entity, object):
-    _uid = 1
+    uid = Entity._uid
     batch = pyglet.graphics.Batch()
 
-    def __init__(self, name, texture_path, solid=True, holdable=True):
+    def __init__(self, material, texture_path=None,
+                 facing=[1, 1], movement=0, position=[0, 0]):
         """ Create a new block with associated texture, name, id, and
         properties as it refers to actor interactions.
 
@@ -34,32 +49,32 @@ class Block(Entity, object):
         :type holdable: bool
 
         """
-        super(Block, self).__init__(name, texture_path, self.batch)
+        if not texture_path:
+            texture_path = material.texture_path
 
-        self._id = self.uid
-        self.uid += 1  # count of created actors
+        super(Block, self).__init__(material.family, material.health,
+                                    texture_path, self.batch,
+                                    facing, movement, position)
 
-        self._solid = solid
-        self._holdable = holdable
-
-    # Unique ID count
-    @property
-    def uid(self):
-        return self._uid
-
-    @uid.setter
-    def uid(self, new_uid):
-        self._uid = new_uid
-
-    # Block ID
-    @property
-    def id(self):
-        return self._id
+        #texture_path, solid=True, holdable=True
+        self._material = material
+        self._solid = material.solid
+        self._holdable = material.holdable
 
     @property
     def solid(self):
+        """ Return the current solid state for a specific Block instance.
+
+        :returns: bool
+
+        """
         return self._solid
 
     @property
     def holdable(self):
+        """ Return the current holdable state for a specific Block instance.
+
+        :returns: bool
+
+        """
         return self._holdable

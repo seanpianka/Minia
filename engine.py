@@ -19,15 +19,14 @@ from constants import *
 
 
 # Rendering test sprites onto the screen.
-all_blocks = list(BLOCKS.values())
 t_x = 100
 t_y = 100
-for i in range(0, len(all_blocks)):
-    all_blocks[i].move_to(x=t_x, y=t_y)
-    print("Adding", str(all_blocks[i].name))
+for i in range(len(BLOCKS)):
+    BLOCKS[i].move_to(x=t_x, y=t_y)
+    print("Adding " + str(BLOCKS[i].name))
     t_x += 40
     t_y += 40
-ACTORS['Player_1'].move_to(x=500, y=250)
+PLAYERS[0].move_to(x=500, y=250)
 
 
 class MiniaGame(pyglet.window.Window, object):
@@ -38,7 +37,7 @@ class MiniaGame(pyglet.window.Window, object):
         glEnable(GL_BLEND)
         glClearColor(0.5, 0.69, 1.0, 1)
         # Flag for locking cursor inside of spawned window
-        self.active = ACTORS['Player_1']
+        self.active = PLAYERS[0]
         self.exclusive = False
         self.schedule = pyglet.clock.schedule_interval(self.update, 1.0/60.0)
         self.fps_display = pyglet.clock.ClockDisplay()

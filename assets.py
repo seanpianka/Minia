@@ -10,30 +10,109 @@ actors.
 from actor import Actor
 from role import Enemy, Player, NPC
 from block import Block
+from material import Material, Solid, Liquid, Gas
 
 
 # Defines behavior of an actor, not used indepedently
 # Passed as paramater when creating a new actor
 ROLES = {}
-ROLES['Zombie'] = Enemy(health=100, attack=8, jump_height=.75)
-ROLES['Skeleton'] = Enemy(health=80, attack=13, jump_height=1)
-ROLES['Dragon'] = Enemy(health=200, attack=21, jump_height=-1)
-ROLES['Rabbit'] = Enemy(health=25, attack=2, jump_height=.25)
-ROLES['Wolf'] = Enemy(health=75, attack=5, jump_height=1.25)
-ROLES['Player'] = Player(health=100, attack=13, jump_height=1)
-ROLES['Trader'] = NPC(health=100, attack=7, jump_height=1)
+ROLES['Zombie']   =  Enemy(family="Zombie",
+                           health=100,
+                           attack=8,
+                           jump_height=.75,
+                           texture_path="")
+ROLES['Skeleton'] =  Enemy(family="Skeleton",
+                           health=80,
+                           attack=13,
+                           jump_height=1,
+                           texture_path="")
+ROLES['Dragon']   =  Enemy(family="Dragon",
+                           health=200,
+                           attack=21,
+                           jump_height=-1,
+                           texture_path="")
+ROLES['Rabbit']   =  Enemy(family="Rabbit",
+                           health=25,
+                           attack=2,
+                           jump_height=.25,
+                           texture_path="")
+ROLES['Wolf']     =  Enemy(family="Wolf",
+                           health=75,
+                           attack=5,
+                           jump_height=1.25,
+                           texture_path="")
 
-BLOCKS = {}
-BLOCKS["Air"] = Block("Air", "air.png", False, False)
-BLOCKS["Dirt"] = Block("Dirt", "dirt.png")
-BLOCKS["Grass"] = Block("Grass", "grass.png")
-BLOCKS["Stone"] = Block("Stone", "stone.png")
-BLOCKS["s_Water"] = Block("s_Water", "water.png", False, False)
-BLOCKS["f_Water"] = Block("f_Water", "water.png", False, False)
-BLOCKS["Wood"] = Block("Wood", "wood.png")
-BLOCKS["Steel"] = Block("Steel", "steel.png")
-BLOCKS["Gold"] = Block("Gold", "gold.png")
-BLOCKS["Bedrock"] = Block("Bedrock", "bedrock.png")
+ROLES['Player']   = Player(family="Player",
+                           health=100,
+                           attack=13,
+                           jump_height=1,
+                           texture_path="player.png")
 
-ACTORS = {}
-ACTORS['Player_1'] = Actor(name="Sean", role=ROLES['Player'], texture_path="player.png")
+ROLES['Trader']   =    NPC(family="Trader",
+                           health=100,
+                           attack=7,
+                           jump_height=1,
+                           texture_path="")
+
+MATERIALS = {}
+MATERIALS["Dirt"]    = Solid(family="Dirt",
+                             health=100,
+                             durability=0,
+                             texture_path="dirt.png")
+MATERIALS["Grass"]   = Solid(family="Grass",
+                             health=100,
+                             durability=0,
+                             texture_path="grass.png")
+MATERIALS["Stone"]   = Solid(family="Stone",
+                             health=100,
+                             durability=2,
+                             texture_path="stone.png")
+MATERIALS["Wood"]    = Solid(family="Wood",
+                             durability=1,
+                             health=100,
+                             texture_path="wood.png")
+MATERIALS["Steel"]   = Solid(family="Steel",
+                             health=100,
+                             durability=3,
+                             texture_path="steel.png")
+MATERIALS["Gold"]    = Solid(family="Gold",
+                             health=100,
+                             durability=4,
+                             texture_path="gold.png")
+MATERIALS["Bedrock"] = Solid(family="Bedrock",
+                             health=-1,
+                             durability=-1,
+                             texture_path="bedrock.png")
+
+MATERIALS["s_Water"] = Liquid(family="s_Water",
+                              health=-1,
+                              durability=-1,
+                              texture_path="water.png")
+MATERIALS["f_Water"] = Liquid(family="f_Water",
+                              health=-1,
+                              durability=-1,
+                              texture_path="water.png")
+
+MATERIALS["Air"]     = Gas(family="Air",
+                           health=-1,
+                           durability=-1,
+                           texture_path="air.png")
+
+# Containers
+PLAYERS = []
+# Perform appends here...
+PLAYERS.append(Actor(name="Sean",
+                     role=ROLES['Player']))
+PLAYERS.append(Actor(name="Cameron",
+                     role=ROLES['Player']))
+
+ENEMIES = []
+# Perform appends here...
+
+NPCS = []
+# Perform appends here...
+
+BLOCKS = []
+# Perform appends here...
+for i in range(10):
+    BLOCKS.append(Block(material=MATERIALS["Grass"]))
