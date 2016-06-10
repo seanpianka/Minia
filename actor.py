@@ -20,9 +20,16 @@ import pyglet
 
 from entity import Entity
 
+
 class Actor(Entity, object):
+    _uid = 1
+    batch = pyglet.graphics.Batch()
+
     def __init__(self, role, name, texture_path, movement=0, position=(0, 0)):
-        super(Actor, self).__init__(name, texture_path)
+        super(Actor, self).__init__(name, texture_path, self.batch)
+
+        self._id = self.uid
+        self.uid += 1  # count of created actors
 
         self._role = role
         self._health = role.health
@@ -30,6 +37,20 @@ class Actor(Entity, object):
         self._jump_height = role.jump_height
         self._inventory = role.inventory
         self._hostile = True if hasattr(role, 'hostile') else False
+
+    # Unique ID count
+    @property
+    def uid(self):
+        return self._uid
+
+    @uid.setter
+    def uid(self, new_uid):
+        self._uid = new_uid
+
+    # Actor ID
+    @property
+    def id(self):
+        return self._id
 
     # Health
     @property

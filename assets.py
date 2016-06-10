@@ -10,7 +10,6 @@ actors.
 from actor import Actor
 from role import Enemy, Player, NPC
 from block import Block
-from entity import entities_batch
 
 
 # Defines behavior of an actor, not used indepedently

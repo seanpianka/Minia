@@ -14,7 +14,8 @@ pyglet.resource.path = ["assets"]
 pyglet.resource.reindex()
 
 class Block(Entity, object):
-    uid = 1
+    _uid = 1
+    batch = pyglet.graphics.Batch()
 
     def __init__(self, name, texture_path, solid=True, holdable=True):
         """ Create a new block with associated texture, name, id, and
@@ -30,11 +31,27 @@ class Block(Entity, object):
         :type holdable: bool
 
         """
-        super(Block, self).__init__(name, texture_path)
-        self.uid += 1
+        super(Block, self).__init__(name, texture_path, self.batch)
+
+        self._id = self.uid
+        self.uid += 1  # count of created actors
 
         self._solid = solid
         self._holdable = holdable
+
+    # Unique ID count
+    @property
+    def uid(self):
+        return self._uid
+
+    @uid.setter
+    def uid(self, new_uid):
+        self._uid = new_uid
+
+    # Block ID
+    @property
+    def id(self):
+        return self._id
 
     @property
     def solid(self):
