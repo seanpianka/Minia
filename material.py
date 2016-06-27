@@ -17,12 +17,15 @@ Composition model is simpler than using inheritance and many Block subclasses:
 :author: Sean Pianka
 
 """
-class Material:
+from unique_id import UniqueID
+
+class Material(UniqueID):
     """ Defines implementation and generic behavior for all Blocks which are
     built from the specific material. Subclasses contain information that will
     be shared among Blocks which are built from the aforementioned material.
 
     """
+    _uid = UniqueID._uid
     def __init__(self, family, health, durability,
                  texture_path, solid, holdable):
         """ Create a new Material with associated texture, name, id, and
@@ -115,6 +118,7 @@ class Material:
         return self._holdable
 
 class Solid(Material, object):
+    _uid = Material._uid
     def __init__(self, family, health, durability,
                  texture_path):
         super(Solid, self).__init__(family, health,
@@ -122,6 +126,7 @@ class Solid(Material, object):
                                     True, True)
 
 class Liquid(Material, object):
+    _uid = Material._uid
     def __init__(self, family, health, durability,
                  texture_path):
         super(Liquid, self).__init__(family, health,
@@ -129,6 +134,7 @@ class Liquid(Material, object):
                                     False, False)
 
 class Gas(Material, object):
+    _uid = Material._uid
     def __init__(self, family, health, durability,
                  texture_path):
         super(Gas, self).__init__(family, health,

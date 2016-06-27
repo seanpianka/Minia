@@ -51,9 +51,6 @@ class Entity(UniqueID):
         :type position: list
 
         """
-        self._id = self.uid
-        self.uid += 1
-
         self._name = name
         self._health = health
         # 1 = Moving right, -1 = Moving left, 0 = Not moving
